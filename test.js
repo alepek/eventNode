@@ -44,10 +44,11 @@ jQuery(document).ready(function ()
     pr4.addEvent("test4");
     pr4.addEvent("test8");
 
-    pr3.addEventListener("test1", getLogger("pr4 test1"));
-    pr3.addEventListener("test4", getLogger("pr4 test4"));
-    pr3.addEventListener("test8", getLogger("pr4 test8"));
+    pr4.addEventListener("test1", getLogger("pr4 test1"));
+    pr4.addEventListener("test4", getLogger("pr4 test4"));
+    pr4.addEventListener("test8", getLogger("pr4 test8"));
 
+  console.log("Non-connected node tests:");
     pr1.triggerEvent("test1");
     pr2.triggerEvent("test2");
     pr3.triggerEvent("test3");
@@ -58,7 +59,7 @@ jQuery(document).ready(function ()
     pr3.connectNode(pr4);
     // After this point, all nodes are effectively connected and the events below should 
     // propagate between the nodes.
-    
+  	console.log("Connnected node tests:");
     pr1.triggerEvent("test1");
     pr2.triggerEvent("test2");
     pr3.triggerEvent("test3");
@@ -81,8 +82,11 @@ jQuery(document).ready(function ()
     pr4.connectNode(pr2);
     pr4.connectNode(pr3);
     
+    console.log("Completely connnected node tests:");
     pr1.triggerEvent("test1");
     pr2.triggerEvent("test2");
     pr3.triggerEvent("test3");
     pr4.triggerEvent("test4");
+ 
+  
 });
