@@ -115,9 +115,9 @@ function eventNode()
         return false;
     };
 
-    this.triggerEvent = function(eventName, triggeredProcesses)
+    this.triggerEvent = function(eventName, triggeredNodes)
     {
-        var triggered = triggeredProcesses || [];
+        var triggered = triggeredNodes || [];
         if (triggered.indexOf(myUniqueIdentifier) !== -1)
             return; // we've already triggered!
         triggered.push(myUniqueIdentifier);
