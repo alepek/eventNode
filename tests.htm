@@ -121,29 +121,59 @@
 			<p>Try triggering events using the buttons below. All animations, including the trigger buttons, are triggered by events from the node network.
 			</p>
 			
-			<div class="nodeContainer">
+			<div class="nodeContainer networkOne">
+				<p class="text-center sub-header">Network One</p>
 				<div class="buttonContainer">
-					<button class="neat-button" id="trigger-A">Trigger A</button>
-					<button class="neat-button" id="trigger-B">Trigger B</button>
-					<button class="neat-button" id="trigger-C">Trigger C</button>
-					<button class="neat-button" id="trigger-D">Trigger D</button>
+					<button class="neat-button" id="trigger-A1">Trigger A</button>
+					<button class="neat-button" id="trigger-B1">Trigger B</button>
+					<button class="neat-button" id="trigger-C1">Trigger C</button>
+					<button class="neat-button" id="trigger-D1">Trigger D</button>
 				</div>
 				<br/>
-				<div class="circularNode" id="demonodeA">
+				<div class="circularNode" id="demonodeA1">
 					A,B
 				</div>
-				<div class="circularNode" id="demonodeB">
+				<div class="circularNode" id="demonodeB1">
 					B,C
 				</div>
-				<div class="circularNode" id="demonodeC">
+				<div class="circularNode" id="demonodeC1">
 					A,C,D
 				</div>
-				<div class="circularNode" id="demonodeD">
+				<div class="circularNode" id="demonodeD1">
 					A,B,D
+				</div>
+			</div>			
+
+			<p class="text-centered">Now, let's make it interesting. Let's add another network. This network is initially not connected to the one above, but you can connect and disconnect them with the controls below.</p>
+
+			<div class="nodeContainer networkTwo">
+				<p class="text-center sub-header">Network Two</p>
+				<div class="buttonContainer">
+					<button class="neat-button" id="toggleNetworkConnection">Connect the netowrks</button>
+				</div>
+				<div class="buttonContainer">
+					<button class="neat-button" id="trigger-A2">Trigger A</button>
+					<button class="neat-button" id="trigger-B2">Trigger B</button>
+					<button class="neat-button" id="trigger-C2">Trigger C</button>
+					<button class="neat-button" id="trigger-D2">Trigger D</button>
+				</div>
+				<br/>
+				<div class="circularNode" id="demonodeA2">
+					A,B,C
+				</div>
+				<div class="circularNode" id="demonodeB2">
+					A,C,D
+				</div>
+				<div class="circularNode" id="demonodeC2">
+					A,C
+				</div>
+				<div class="circularNode" id="demonodeD2">
+					B,D
 				</div>
 			</div>
 
 			<p>To really get a feel for it, try inspecting the code. Take a closer look at the setUpDemonstration function.</p>
+
 			<hr class="neat-delimiter">
 			<h5 class="neat-font sub-header">API</h5>
 			<p>This section lists the available methods and their parameters and return types.</p>

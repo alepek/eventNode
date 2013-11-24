@@ -1,4 +1,5 @@
 
+"use strict;"
 /// TESTS
 jQuery(document).ready(function ()
 {
@@ -217,106 +218,141 @@ jQuery(document).ready(function ()
 
 function setUpDemonstration()
 {
-	var A = jQuery("#demonodeA");
-	var B = jQuery("#demonodeB");
-	var C = jQuery("#demonodeC");
-	var D = jQuery("#demonodeD");
+	var A1 = jQuery("#demonodeA1");
+	var B1 = jQuery("#demonodeB1");
+	var C1 = jQuery("#demonodeC1");
+	var D1 = jQuery("#demonodeD1");
 
-	var nodeA = new eventNode();
-	var nodeB = new eventNode();
-	var nodeC = new eventNode();
-	var nodeD = new eventNode();
+	var A2 = jQuery("#demonodeA2");
+	var B2 = jQuery("#demonodeB2");
+	var C2 = jQuery("#demonodeC2");
+	var D2 = jQuery("#demonodeD2");
 
 	var colorChanger = function(element, color)
 	{
-		var e = element, c=color, running, p;
+		var e = element, c=color, originalColor = jQuery(e).css("background-color"), t;
 		return function()
 		{
-			if(running)
-				return;
-			running = true;
-			p = jQuery(e).css("background-color");
+			if(t)
+				clearTimeout(t);
 			jQuery(e).css("background-color", c);
 
 			t = setTimeout(function()
 			{
-				jQuery(e).css("background-color", p);
-				
-				// we know we're using transitions, and they are sneaky. 
-				// so let's trigger another timer here, with 200 ms delay, which our transitions are.
-				setTimeout(function(){nodeA.triggerEvent("enableButtons"); running=false; }, 200);
-			},1500)
+				if(jQuery(e).css("background-color") === c)
+					jQuery(e).css("background-color", originalColor);
+				// if it's not, someone else changes it and we'll let them change it back.
+			},2500)
 		}
 	};
 
-	nodeA.connectNode(nodeB);
-	nodeB.connectNode(nodeC);
-	nodeC.connectNode(nodeD);
+	var nodeA1 = new eventNode();
+	var nodeB1 = new eventNode();
+	var nodeC1 = new eventNode();
+	var nodeD1 = new eventNode();
 
-	nodeA.addEvent("A");
-	nodeA.addEvent("B");
-	nodeA.addEvent("C");
-	nodeA.addEvent("D");
+	var nodeA2 = new eventNode();
+	var nodeB2 = new eventNode();
+	var nodeC2 = new eventNode();
+	var nodeD2 = new eventNode();
 
-	nodeA.addEventListener("A", colorChanger(A, "red"));
-	nodeA.addEventListener("B", colorChanger(A, "green"));
+	nodeA1.connectNode(nodeB1);
+	nodeB1.connectNode(nodeC1);
+	nodeC1.connectNode(nodeD1);
 
-	nodeB.addEventListener("B", colorChanger(B, "green"));
-	nodeB.addEventListener("C", colorChanger(B, "purple"));
+	nodeA2.connectNode(nodeB2);
+	nodeB2.connectNode(nodeC2);
+	nodeC2.connectNode(nodeD2);
 
-	nodeC.addEventListener("A", colorChanger(C, "red"));
-	nodeC.addEventListener("C", colorChanger(C, "purple"));
-	nodeC.addEventListener("D", colorChanger(C, "aliceblue"));
+	nodeA1.addEvent("A");
+	nodeA1.addEvent("B");
+	nodeA1.addEvent("C");
+	nodeA1.addEvent("D");
 
-	nodeD.addEventListener("A", colorChanger(D, "red")); 
-	nodeD.addEventListener("B", colorChanger(D, "green")); 
-	nodeD.addEventListener("D", colorChanger(D, "aliceblue")); 
+	nodeA2.addEvent("A");
+	nodeA2.addEvent("B");
+	nodeA2.addEvent("C");
+	nodeA2.addEvent("D");
 
-	var buttonsDisabled = false;
-	var buttonDisabler = new eventNode();
-	buttonDisabler.addEvent("disableButtons");
-	buttonDisabler.addEvent("enableButtons");
-	nodeA.connectNode(buttonDisabler);
+	var red = "rgb(166, 45, 45)";
+	var green = "rgb(45, 166, 45)";
+	var blue = "rgb(45, 45, 166)";
+	var gray = "rgb(144, 144, 144)";
+	var purple = "rgb(144, 66, 144)";
 
-	buttonDisabler.addEventListener("disableButtons", function()
+
+	nodeA1.addEventListener("A", colorChanger(A1, red));
+	nodeA1.addEventListener("B", colorChanger(A1, green));
+
+	nodeB1.addEventListener("B", colorChanger(B1, green));
+	nodeB1.addEventListener("C", colorChanger(B1, purple));
+
+	nodeC1.addEventListener("A", colorChanger(C1, red));
+	nodeC1.addEventListener("C", colorChanger(C1, purple));
+	nodeC1.addEventListener("D", colorChanger(C1, gray));
+
+	nodeD1.addEventListener("A", colorChanger(D1, red)); 
+	nodeD1.addEventListener("B", colorChanger(D1, green)); 
+	nodeD1.addEventListener("D", colorChanger(D1, gray)); 
+
+	nodeA2.addEventListener("A", colorChanger(A2, red));
+	nodeA2.addEventListener("B", colorChanger(A2, green));
+	nodeA2.addEventListener("C", colorChanger(A2, purple));
+
+	nodeB2.addEventListener("A", colorChanger(B2, red));
+	nodeB2.addEventListener("C", colorChanger(B2, purple));
+	nodeB2.addEventListener("D", colorChanger(B2, gray));
+
+	nodeC2.addEventListener("A", colorChanger(C2, red));
+	nodeC2.addEventListener("C", colorChanger(C2, purple));
+
+	nodeD2.addEventListener("B", colorChanger(D2, green)); 
+	nodeD2.addEventListener("D", colorChanger(D2, gray)); 
+
+	jQuery("#trigger-A1").click(function(){
+		nodeA1.triggerEvent("A");
+		nodeA1.triggerEvent("disableButtons");
+	});
+	jQuery("#trigger-B1").click(function(){
+		nodeB1.triggerEvent("B");
+		nodeA1.triggerEvent("disableButtons");
+	});
+	jQuery("#trigger-C1").click(function(){
+		nodeC1.triggerEvent("C");
+		nodeA1.triggerEvent("disableButtons");
+	});
+	jQuery("#trigger-D1").click(function(){
+		nodeD1.triggerEvent("D");
+		nodeA1.triggerEvent("disableButtons");
+	});
+
+	jQuery("#trigger-A2").click(function(){
+		nodeA2.triggerEvent("A");
+		nodeA2.triggerEvent("disableButtons");
+	});
+	jQuery("#trigger-B2").click(function(){
+		nodeB2.triggerEvent("B");
+		nodeA2.triggerEvent("disableButtons");
+	});
+	jQuery("#trigger-C2").click(function(){
+		nodeC2.triggerEvent("C");
+		nodeA2.triggerEvent("disableButtons");
+	});
+	jQuery("#trigger-D2").click(function(){
+		nodeD2.triggerEvent("D");
+		nodeA2.triggerEvent("disableButtons");
+	});
+
+	jQuery("#toggleNetworkConnection").click(function()
 	{
-		buttonsDisabled = true;
-	});
-	buttonDisabler.addEventListener("enableButtons", function()
-	{
-		buttonsDisabled = false;
-	});
-	buttonDisabler.addEventListener("disableButtons", function()
-	{
-		jQuery(".neat-button").addClass("disabled");
-	});
-	buttonDisabler.addEventListener("enableButtons", function()
-	{
-		jQuery(".neat-button").removeClass("disabled");
-	});
-
-	jQuery("#trigger-A").click(function(){
-		if(buttonsDisabled)
-			return;
-		nodeA.triggerEvent("A");
-		nodeA.triggerEvent("disableButtons");
-	});
-	jQuery("#trigger-B").click(function(){
-		if(buttonsDisabled)
-			return;
-		nodeB.triggerEvent("B");
-		nodeA.triggerEvent("disableButtons");
-	});
-	jQuery("#trigger-C").click(function(){
-		if(buttonsDisabled)
-			return;
-		nodeC.triggerEvent("C");
-		nodeA.triggerEvent("disableButtons");
-	});
-	jQuery("#trigger-D").click(function(){
-		if(buttonsDisabled)
-			return;
-		nodeD.triggerEvent("D");
-		nodeA.triggerEvent("disableButtons");
+		if(nodeA1.connectNode(nodeA2))
+		{
+			jQuery(this).text("Disconnect the networks");
+		}
+		else
+		{
+			nodeA1.disconnectNode(nodeA2);
+			jQuery(this).text("Connect the networks");
+		}
 	});
 }
