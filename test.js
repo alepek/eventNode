@@ -311,36 +311,28 @@ function setUpDemonstration()
 
 	jQuery("#trigger-A1").click(function(){
 		nodeA1.triggerEvent("A");
-		nodeA1.triggerEvent("disableButtons");
 	});
 	jQuery("#trigger-B1").click(function(){
 		nodeB1.triggerEvent("B");
-		nodeA1.triggerEvent("disableButtons");
 	});
 	jQuery("#trigger-C1").click(function(){
 		nodeC1.triggerEvent("C");
-		nodeA1.triggerEvent("disableButtons");
 	});
 	jQuery("#trigger-D1").click(function(){
 		nodeD1.triggerEvent("D");
-		nodeA1.triggerEvent("disableButtons");
 	});
 
 	jQuery("#trigger-A2").click(function(){
 		nodeA2.triggerEvent("A");
-		nodeA2.triggerEvent("disableButtons");
 	});
 	jQuery("#trigger-B2").click(function(){
 		nodeB2.triggerEvent("B");
-		nodeA2.triggerEvent("disableButtons");
 	});
 	jQuery("#trigger-C2").click(function(){
 		nodeC2.triggerEvent("C");
-		nodeA2.triggerEvent("disableButtons");
 	});
 	jQuery("#trigger-D2").click(function(){
 		nodeD2.triggerEvent("D");
-		nodeA2.triggerEvent("disableButtons");
 	});
 
 	jQuery("#toggleNetworkConnection").click(function()
