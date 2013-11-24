@@ -23,13 +23,13 @@ function eventNode()
     function s4()
     {
         return Math.floor((1 + Math.random()) * 0x10000)
-                   .toString(16)
-                   .substring(1);
+           .toString(16)
+           .substring(1);
     };
     function getGuid()
     {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-               s4() + '-' + s4() + s4() + s4();
+           s4() + '-' + s4() + s4() + s4();
     };
     function getNodeIndex(node)
     {
@@ -39,16 +39,74 @@ function eventNode()
                 return i;
         }
     };
+    function createUniqueArray(array) 
+    {
+        var a = array.concat();
+        for(var i=0; i<a.length; ++i) 
+        {
+            for(var j=i+1; j<a.length; ++j) 
+            {
+                if(a[i].getIdentifier() === a[j].getIdentifier())
+                    a.splice(j--, 1);
+            }
+        }
+        return a;
+    };
 
     // Public functions
+    this.getNetworkNodes = function(scouredNodes)
+    {
+        // retrieves all nodes in the network.
+        var scoured = scouredNodes || [];
+        for (var i = scoured.length - 1; i >= 0; i--) 
+        {
+            var node = scoured[i]
+            if(node.getIdentifier() === this.getIdentifier())
+                return scoured;
+        };
+
+        scoured.push(this);        
+        if(nodes.length)
+        {
+            for (var j = 0; j < nodes.length; j++)
+            {
+                var node = nodes[j];
+                var otherIdentifiers = node.getNetworkNodes(scoured);
+                if(otherIdentifiers && otherIdentifiers.length)
+                    scoured = createUniqueArray(otherIdentifiers.concat(scoured));
+            }
+        }
+        return scoured;
+    };    
+    this.getNetworkIdentifiers = function()
+    {
+        var networkNodes = this.getNetworkNodes();
+        var identifiers = [];
+        for (var i = networkNodes.length - 1; i >= 0; i--) 
+        {
+            identifiers.push(networkNodes[i].getIdentifier())
+        };
+        return identifiers;
+    }
     this.getIdentifier = function()
     {
         return myUniqueIdentifier;
     };
+
     this.hasEvent = function(eventName)
     {
         if (eventName && events.indexOf(eventName) !== -1 && listeners[eventName])
             return true;
+        return false;
+    };
+    this.networkHasEvent = function(eventName)
+    {
+        var nodesInNetwork = this.getNetworkNodes();
+        for (var i = nodesInNetwork.length - 1; i >= 0; i--) {
+            var node = nodesInNetwork[i];
+            if(node.hasEvent(eventName))
+                return true;
+        };
         return false;
     };
     this.hasEventListener = function(eventName, eventListener)
@@ -56,6 +114,16 @@ function eventNode()
         return this.hasEvent(eventName)
             && isFunction(eventListener)
             && listeners[eventName].indexOf(eventListener) !== -1;
+    };
+    this.networkHasEventListener = function(eventName, eventListener)
+    {
+        var nodesInNetwork = this.getNetworkNodes();
+        for (var i = nodesInNetwork.length - 1; i >= 0; i--) {
+            var node = nodesInNetwork[i];
+            if(node.hasEventListener(eventName, eventListener))
+                return true;
+        };
+        return false;
     };
     this.hasNode = function(node)
     {
@@ -80,7 +148,7 @@ function eventNode()
     };
     this.addEventListener = function(eventName, eventListener)
     {
-        if (this.hasEvent(eventName) && isFunction(eventListener))
+        if (this.networkHasEvent(eventName) && isFunction(eventListener))
         {
             listeners[eventName].push(eventListener);
             return true;
@@ -145,3 +213,5 @@ function eventNode()
         }
     };
 }
+
+

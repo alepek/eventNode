@@ -87,6 +87,73 @@ jQuery(document).ready(function ()
     pr2.triggerEvent("test2");
     pr3.triggerEvent("test3");
     pr4.triggerEvent("test4");
+
+  	console.log("Network should now contain four nodes.");
  
-  
+  	console.log("Nodes in network from pr1:"+pr1.getNetworkNodes().length)
+  	console.log("Nodes in network from pr2:"+pr2.getNetworkNodes().length)
+  	console.log("Creating a more complex network and connecting it...");
+
+  	var a1 = new eventNode();
+  	var a2 = new eventNode();
+  	var a3 = new eventNode();
+  	var a4 = new eventNode();
+  	var a5 = new eventNode();
+  	var a6 = new eventNode();
+  	var a7 = new eventNode();
+  	var a8 = new eventNode();
+  	var a9 = new eventNode();
+
+  	console.log("Network should now contain nine nodes.");
+
+  	a1.connectNode(a2);
+  	a2.connectNode(a3);
+  	a3.connectNode(a9);
+  	a9.connectNode(a8);
+  	a8.connectNode(a7);
+  	a7.connectNode(a6);
+  	a6.connectNode(a4);
+  	a4.connectNode(a5);
+
+  	console.log("Nodes in network from a1: "+ a1.getNetworkNodes().length);
+  	console.log("Nodes in network from a5: "+ a5.getNetworkNodes().length);
+  	console.log("Nodes in network from a9: "+ a9.getNetworkNodes().length);
+
+  	console.log("Network node identifiers:\n"+ a9.getNetworkIdentifiers().join(",\n"));  
+
+  	console.log("Adding events FringeTester to nodes a1 and a4...");
+  	console.log("Adding events ThreeTester to nodes a1, a6 and a9...");
+
+  	a1.addEvent("FringeTester");
+  	a4.addEvent("FringeTester");
+
+  	a6.addEvent("ThreeTester");
+  	a1.addEvent("ThreeTester");
+  	a9.addEvent("ThreeTester");
+
+  	console.log("Does a1 have the event FringeTester? " + a1.hasEvent("FringeTester"));
+  	console.log("Does a2 have the event FringeTester? " + a2.hasEvent("FringeTester"));
+  	console.log("Does a3 have the event FringeTester? " + a3.hasEvent("FringeTester"));
+  	console.log("Does a4 have the event FringeTester? " + a4.hasEvent("FringeTester"));
+  	console.log("Does a5 have the event FringeTester? " + a5.hasEvent("FringeTester"));
+
+  	console.log("Does a1 have the event ThreeTester? " + a1.hasEvent("ThreeTester"));
+  	console.log("Does a2 have the event ThreeTester? " + a2.hasEvent("ThreeTester"));
+  	console.log("Does a5 have the event ThreeTester? " + a5.hasEvent("ThreeTester"));
+  	console.log("Does a6 have the event ThreeTester? " + a6.hasEvent("ThreeTester"));
+  	console.log("Does a8 have the event ThreeTester? " + a8.hasEvent("ThreeTester"));
+  	console.log("Does a9 have the event ThreeTester? " + a9.hasEvent("ThreeTester"));
+
+
+  	console.log("Does the network connected to a2 have the event ThreeTester? " + 
+  		a2.networkHasEvent("ThreeTester"));
+  	console.log("Does the network connected to a3 have the event ThreeTester? " + 
+  		a3.networkHasEvent("ThreeTester"));
+  	console.log("Does the network connected to a8 have the event ThreeTester? " + 
+  		a8.networkHasEvent("ThreeTester")); 	
+
+  	console.log("Does the network connected to a8 have the event DoesNotExist? " + 
+  		a8.networkHasEvent("DoesNotExist"));
+  	console.log("Does the network connected to a2 have the event DoesNotExist? " + 
+  		a2.networkHasEvent("DoesNotExist"));
 });
