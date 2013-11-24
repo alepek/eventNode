@@ -211,4 +211,112 @@ jQuery(document).ready(function ()
   		a8.networkHasEvent("FirstNetwork"));	
   	console.log("Does the network connected to a8 have the event SecondNetwork? " + 
   		a8.networkHasEvent("SecondNetwork"));
+
+  	setUpDemonstration();
 });
+
+function setUpDemonstration()
+{
+	var A = jQuery("#demonodeA");
+	var B = jQuery("#demonodeB");
+	var C = jQuery("#demonodeC");
+	var D = jQuery("#demonodeD");
+
+	var nodeA = new eventNode();
+	var nodeB = new eventNode();
+	var nodeC = new eventNode();
+	var nodeD = new eventNode();
+
+	var colorChanger = function(element, color)
+	{
+		var e = element, c=color, running, p;
+		return function()
+		{
+			if(running)
+				return;
+			running = true;
+			p = jQuery(e).css("background-color");
+			jQuery(e).css("background-color", c);
+
+			t = setTimeout(function()
+			{
+				jQuery(e).css("background-color", p);
+				
+				// we know we're using transitions, and they are sneaky. 
+				// so let's trigger another timer here, with 200 ms delay, which our transitions are.
+				setTimeout(function(){nodeA.triggerEvent("enableButtons"); running=false; }, 200);
+			},1500)
+		}
+	};
+
+	nodeA.connectNode(nodeB);
+	nodeB.connectNode(nodeC);
+	nodeC.connectNode(nodeD);
+
+	nodeA.addEvent("A");
+	nodeA.addEvent("B");
+	nodeA.addEvent("C");
+	nodeA.addEvent("D");
+
+	nodeA.addEventListener("A", colorChanger(A, "red"));
+	nodeA.addEventListener("B", colorChanger(A, "green"));
+
+	nodeB.addEventListener("B", colorChanger(B, "green"));
+	nodeB.addEventListener("C", colorChanger(B, "purple"));
+
+	nodeC.addEventListener("A", colorChanger(C, "red"));
+	nodeC.addEventListener("C", colorChanger(C, "purple"));
+	nodeC.addEventListener("D", colorChanger(C, "aliceblue"));
+
+	nodeD.addEventListener("A", colorChanger(D, "red")); 
+	nodeD.addEventListener("B", colorChanger(D, "green")); 
+	nodeD.addEventListener("D", colorChanger(D, "aliceblue")); 
+
+	var buttonsDisabled = false;
+	var buttonDisabler = new eventNode();
+	buttonDisabler.addEvent("disableButtons");
+	buttonDisabler.addEvent("enableButtons");
+	nodeA.connectNode(buttonDisabler);
+
+	buttonDisabler.addEventListener("disableButtons", function()
+	{
+		buttonsDisabled = true;
+	});
+	buttonDisabler.addEventListener("enableButtons", function()
+	{
+		buttonsDisabled = false;
+	});
+	buttonDisabler.addEventListener("disableButtons", function()
+	{
+		jQuery(".neat-button").addClass("disabled");
+	});
+	buttonDisabler.addEventListener("enableButtons", function()
+	{
+		jQuery(".neat-button").removeClass("disabled");
+	});
+
+	jQuery("#trigger-A").click(function(){
+		if(buttonsDisabled)
+			return;
+		nodeA.triggerEvent("A");
+		nodeA.triggerEvent("disableButtons");
+	});
+	jQuery("#trigger-B").click(function(){
+		if(buttonsDisabled)
+			return;
+		nodeB.triggerEvent("B");
+		nodeA.triggerEvent("disableButtons");
+	});
+	jQuery("#trigger-C").click(function(){
+		if(buttonsDisabled)
+			return;
+		nodeC.triggerEvent("C");
+		nodeA.triggerEvent("disableButtons");
+	});
+	jQuery("#trigger-D").click(function(){
+		if(buttonsDisabled)
+			return;
+		nodeD.triggerEvent("D");
+		nodeA.triggerEvent("disableButtons");
+	});
+}

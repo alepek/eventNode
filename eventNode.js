@@ -23,8 +23,7 @@ function eventNode()
     function s4()
     {
         return Math.floor((1 + Math.random()) * 0x10000)
-           .toString(16)
-           .substring(1);
+           .toString(16).substring(1);
     };
     function getGuid()
     {
@@ -151,6 +150,9 @@ function eventNode()
     {
         if (this.networkHasEvent(eventName) && isFunction(eventListener))
         {
+            if(!this.hasEvent(eventName))
+                this.addEvent(eventName);
+            // As it is now, each node needs to contain an event to be able to provide listening options for it.            
             listeners[eventName].push(eventListener);
             return true;
         }
@@ -220,6 +222,7 @@ function eventNetwork()
 {
     // an eventNetwork is a set of eventNodes. Its purpose is to remove the need for the user to
     // track and maintain the connections between nodes. You could also call it an eventpool.
+    // Whether this is needed/desired is not yet determined.
 
     // Private variables
     networks = [];

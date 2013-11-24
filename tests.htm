@@ -3,9 +3,150 @@
 		<script src="jquery-2.0.3.min.js"></script>
 		<script src="eventNode.js"></script>
 		<script src="test.js"></script>
+
+		<style>
+		p,h1,h2,h3,h4,h5,h6 .neat-font{
+			-webkit-font-smoothing: antialiased;
+			font-family:'Open Sans', 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
+			color:#484848;
+			font-size: 14px;
+			font-weight: 300;
+			line-height:20px;
+		}
+		.neat-delimiter{
+			margin-top: 10px;
+			margin-bottom: 10px;
+			border: 0;
+			border-top: 1px solid #eee;
+		}
+		.muted{
+			font-size:12px;
+			color:#686868;
+		}
+		.page-header{
+			font-size:32px;
+			padding:20px;
+			margin:0;
+		}
+		.sub-header{
+			font-size:24px;
+			margin-top:20px;
+			margin-bottom:20px;
+		}
+		.text-centered{
+			text-align: center;
+		}
+
+		@media (max-width:860px)
+		{
+			.main-container{
+				padding-left:50px;
+				padding-right:50px;
+			}
+		}
+		@media (min-width:861px)
+		{
+			.main-container{
+				padding-left:150px;
+				padding-right:150px;
+			}
+		}
+		.main-container{			
+			width:auto;
+		}
+		.circularNode{
+			border-radius: 2px;
+			width:80px;
+			height:80px;
+			background-color:#08C;
+			border:1px solid #3A3A3A;
+			transition: all 0.5s;
+			margin-left:10px;
+			margin-right:10px;
+			padding:3px;
+			display:inline-block;
+			font-family:'Open Sans', 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
+		}
+		.circularNode span{
+
+		}
+		.nodeContainer{
+			text-align: center;
+			border:1px solid #ccc;
+			border-radius:4px;
+			background-color:#FAFAFA;
+			padding:20px;
+		}
+		.buttonContainer{
+			margin-bottom:10px;
+		}
+		.neat-button{
+			padding:8px;
+			border:2px solid #bbb;
+			font-family:'Open Sans', 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
+			transition: 0.2s all;
+			color:#555;
+			font-weight:bold;
+		}
+		.neat-button:hover{
+			background-color:#bbb;
+			cursor:pointer;
+		}
+		.neat-button.disabled{
+			opacity:0.5;
+		}
+		</style>
 	</head>
 	<body>
 		<div class="main-container">
+			<h4 class="text-centered neat-font page-header"> eventNode.js </h4>
+			<hr class="neat-delimiter"/>
+			<h5 class="neat-font sub-header">Introduction</h5>
+			<p>
+				eventNode is a lightweight event framework that allows you to create nodes and connect them as you please, in order to propagate events between nodes.
+			</p>
+			<p>
+				Each node may contain an event or not. Whether a node contains an event or not, any listener can listen for any event available in the node network, since all events are propagated over the entire network, regardless of whether a node has registered that event or not.
+			</p>
+			<p>
+				eventNodes' intended usage is in an environment that consists of several modules that take action when another module performs some critical task, like updating a gui when a search module has completed an adress search. 
+			</p>
+			<p>
+				The purpose is to maintain isolation between these modules, while still allowing them to perform tasks dependant on the completion of tasks in other modules.
+			</p>
+			<hr class="neat-delimiter"/>
+			<h5 class="neat-font sub-header">Demonstration</h5>
+			<p>Each shape below represents a node. Each node is connected to its neighbor. Inside each node is a list of events that the node contains. Each node also has a listener that changes their color for a short while when that event triggers.
+			</p>
+			<p>Try triggering events using the buttons below. All animations, including the trigger buttons, are triggered by events from the node network.
+			</p>
+			
+			<div class="nodeContainer">
+				<div class="buttonContainer">
+					<button class="neat-button" id="trigger-A">Trigger A</button>
+					<button class="neat-button" id="trigger-B">Trigger B</button>
+					<button class="neat-button" id="trigger-C">Trigger C</button>
+					<button class="neat-button" id="trigger-D">Trigger D</button>
+				</div>
+				<br/>
+				<div class="circularNode" id="demonodeA">
+					A,B
+				</div>
+				<div class="circularNode" id="demonodeB">
+					B,C
+				</div>
+				<div class="circularNode" id="demonodeC">
+					A,C,D
+				</div>
+				<div class="circularNode" id="demonodeD">
+					A,B,D
+				</div>
+			</div>
+
+			<p>To really get a feel for it, try inspecting the code. Take a closer look at the setUpDemonstration function.</p>
+			<hr class="neat-delimiter">
+			<h5 class="neat-font sub-header">API</h5>
+			<p>This section lists the available methods and their parameters and return types.</p>
 		</div>
 	</body>
 </html>
