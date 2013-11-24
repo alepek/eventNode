@@ -13,8 +13,8 @@ jQuery(document).ready(function ()
         return function()
         {
             console.log(msg);
-        }
-    }
+        };
+    };
 
     pr1.addEvent("test1");
     pr1.addEvent("test2");
@@ -137,6 +137,13 @@ jQuery(document).ready(function ()
   	console.log("Does a4 have the event FringeTester? " + a4.hasEvent("FringeTester"));
   	console.log("Does a5 have the event FringeTester? " + a5.hasEvent("FringeTester"));
 
+  	console.log("Does the network connected to a2 have the event FringeTester? " + 
+  		a2.networkHasEvent("FringeTester"));
+  	console.log("Does the network connected to a3 have the event FringeTester? " + 
+  		a3.networkHasEvent("FringeTester"));
+  	console.log("Does the network connected to a4 have the event FringeTester? " + 
+  		a4.networkHasEvent("FringeTester"));
+
   	console.log("Does a1 have the event ThreeTester? " + a1.hasEvent("ThreeTester"));
   	console.log("Does a2 have the event ThreeTester? " + a2.hasEvent("ThreeTester"));
   	console.log("Does a5 have the event ThreeTester? " + a5.hasEvent("ThreeTester"));
@@ -156,4 +163,52 @@ jQuery(document).ready(function ()
   		a8.networkHasEvent("DoesNotExist"));
   	console.log("Does the network connected to a2 have the event DoesNotExist? " + 
   		a2.networkHasEvent("DoesNotExist"));
+
+  	console.log("And now, let's connect the aX network to the prX network!");
+
+  	a1.connectNode(pr1);
+
+  	console.log("Does the network connected to a1 have the event test1? " + 
+  		a1.networkHasEvent("test1"));
+  	console.log("Does the network connected to a9 have the event test1? " + 
+  		a9.networkHasEvent("test1"));
+  	console.log("Does the network connected to pr3 have the event ThreeTester? " + 
+  		pr3.networkHasEvent("ThreeTester"));
+
+  	console.log("And let's disconnect the two networks, and rerun.");
+  	pr1.disconnectNode(a1);
+
+  	console.log("Does the network connected to a1 have the event test1? " + 
+  		a1.networkHasEvent("test1"));
+  	console.log("Does the network connected to a9 have the event test1? " + 
+  		a9.networkHasEvent("test1"));
+  	console.log("Does the network connected to pr3 have the event ThreeTester? " + 
+  		pr3.networkHasEvent("ThreeTester"));
+
+  	console.log("Now let's separate the aX network into two networks by splitting at a9, and adding an event to either.")
+  	a9.disconnectNode(a8);
+
+  	a9.addEvent("FirstNetwork");
+  	a8.addEvent("SecondNetwork");
+
+  	console.log("Does the network connected to a9 have the event FirstNetwork? " + 
+  		a9.networkHasEvent("FirstNetwork"));
+  	console.log("Does the network connected to a9 have the event SecondNetwork? " + 
+  		a9.networkHasEvent("SecondNetwork"));
+  	console.log("Does the network connected to a8 have the event FirstNetwork? " + 
+  		a8.networkHasEvent("FirstNetwork"));	
+  	console.log("Does the network connected to a8 have the event SecondNetwork? " + 
+  		a8.networkHasEvent("SecondNetwork"));
+
+  	console.log("Reconnecting networks via nodes a4 and a3 and rerunning tests.")
+  	a4.connectNode(a3);
+
+  	console.log("Does the network connected to a9 have the event FirstNetwork? " + 
+  		a9.networkHasEvent("FirstNetwork"));
+  	console.log("Does the network connected to a9 have the event SecondNetwork? " + 
+  		a9.networkHasEvent("SecondNetwork"));
+  	console.log("Does the network connected to a8 have the event FirstNetwork? " + 
+  		a8.networkHasEvent("FirstNetwork"));	
+  	console.log("Does the network connected to a8 have the event SecondNetwork? " + 
+  		a8.networkHasEvent("SecondNetwork"));
 });

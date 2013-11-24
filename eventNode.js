@@ -33,9 +33,10 @@ function eventNode()
     };
     function getNodeIndex(node)
     {
+        var id = node.getIdentifier();
         for (var i = 0; i < nodes.length; i++)
         {
-            if (nodes[i].getIdentifier() == id)
+            if (nodes[i].getIdentifier() === id)
                 return i;
         }
     };
@@ -212,6 +213,39 @@ function eventNode()
             }
         }
     };
+};
+
+
+function eventNetwork()
+{
+    // an eventNetwork is a set of eventNodes. Its purpose is to remove the need for the user to
+    // track and maintain the connections between nodes. You could also call it an eventpool.
+
+    // Private variables
+    networks = [];
+    nodes = [];
+    // Private functions
+    function networkContainsNode(node)
+    {
+
+    }
+    // Public variables
+
+    // Public functions
+    this.addNode = function(node)
+    {
+
+    };
+    this.removeNode = function(node)
+    {
+
+    };
+    this.connectToNetwork = function(network)
+    {
+
+    };
+    this.disconnectNetwork = function(network)
+    {
+
+    };
 }
-
-
